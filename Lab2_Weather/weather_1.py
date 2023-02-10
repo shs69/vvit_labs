@@ -8,18 +8,13 @@ res = requests.get("http://api.openweathermap.org/data/2.5/weather",
                    params={'q': city, 'units': 'metric', 'lang': 'ru', 'APPID': appid})
 data = res.json()
 
-print("Город:", city)
-print("Погодные условия:", data['weather'][0]['description'])
-print("Температура:", data['main']['temp'])
-print("Минимальная температура:", data['main']['temp_min'])
-print("Максимальная температура", data['main']['temp_max'])
-
 res_week = requests.get("http://api.openweathermap.org/data/2.5/forecast",
                         params={'q': city, 'units': 'metric', 'lang': 'ru', 'APPID': appid})
 data2 = res_week.json()
 
-print("Прогноз погоды на неделю:")
+print('Город:', city)
+print('Скорость ветра сегодня:', data['wind']['speed'])
+print('Видимость сегодня:', data['visibility'])
 for i in data2['list']:
-    print("Дата<", i['dt_txt'], ">\r\nТемпература<", '{0:+3.0f}'.format(i['main']['temp']), ">\r\nПогодные условия<",
-          i['weather'][0]['description'], ">")
-    print("___________________________________")
+    print('Дата:', i['dt_txt'], '\nСкорость ветра:', i['wind']['speed'], '\nВидимость:', i['visibility'])
+    print('_________________________')
