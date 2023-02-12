@@ -6,9 +6,6 @@
 </head>
 <body>
     <form action="" method="post">
-		{% if error_flag %}
-		<p> Неправильно введён логин или пароль </p>
-		 {% endif %}
         <p>
 	    <label for="username">Username</label>
 	    <input type="text" name="username">
@@ -18,7 +15,7 @@
 	    <input type="password" name="password">
 	</p>
 	<p>
-	    <input type="submit">
+	    <input type="submit" value="Send">
 	</p>
     </form>
 </body>

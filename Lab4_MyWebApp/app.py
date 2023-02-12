@@ -25,6 +25,18 @@ def index():
     return render_template('login.html')
 
 
+# @app.route('/login/')
+# def signout():
+#     if form.validate_on_submit():
+#         if 'Sign out' in request.form:
+#             return redirect(url_for('login'))
+
+
+# @app.route('/login/account/', methods=['GET', 'POST'])
+# def account():
+#     return render_template('account.html', full_name=records[0][1], username=username, password=password)
+
+
 @app.route('/login/', methods=['POST'])
 def login():
     username = request.form.get('username')
@@ -35,6 +47,6 @@ def login():
         if records:
             return render_template('account.html', full_name=records[0][1], username=username, password=password)
         else:
-            return render_template('login.html')
+            return render_template('error_login.html')
     else:
-        return render_template('login.html')
+        return render_template('error_login.html')
