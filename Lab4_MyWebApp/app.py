@@ -1,4 +1,3 @@
-import requests
 import psycopg2
 from flask import Flask, render_template, request, redirect, url_for
 
@@ -15,26 +14,9 @@ conn = psycopg2.connect(database='service_db',
 cursor = conn.cursor()
 
 
-@app.route('/')
-def index0():
-    return redirect(url_for('login'))
-
-
 @app.route('/login/', methods=['GET'])
 def index():
     return render_template('login.html')
-
-
-# @app.route('/login/')
-# def signout():
-#     if form.validate_on_submit():
-#         if 'Sign out' in request.form:
-#             return redirect(url_for('login'))
-
-
-# @app.route('/login/account/', methods=['GET', 'POST'])
-# def account():
-#     return render_template('account.html', full_name=records[0][1], username=username, password=password)
 
 
 @app.route('/login/', methods=['POST'])
@@ -42,11 +24,12 @@ def login():
     username = request.form.get('username')
     password = request.form.get('password')
     if username and password:
-        cursor.execute("select * from service.users where login=%s and password=%s", (str(username), str(password)))
+        cursor.execute("select * from service.users where login=%s and \
+                        password=%s", (str(username), str(password)))
         records = list(cursor.fetchall())
         if records:
             return render_template('account.html', full_name=records[0][1], username=username, password=password)
         else:
-            return render_template('error_login.html')
+            return render_template('account.html', error='user does not exist')
     else:
-        return render_template('error_login.html')
+        return render_template('account.html', error='Empty password or username')

@@ -11,11 +11,12 @@
         <p>Hello, {{full_name}}! </p>
         <p>Your username: {{username}} </p>
         <p>Your password: {{password}} </p>
+        {% else %}
+        <p> {{error}} </p>
         {% endif %}
-
     </form>
-    <form action="/">
-        <input type="submit" value="Sign Out">
+    <form action="/login">
+        <input type="submit" value="Back">
     </form>
 </body>
 </html>
