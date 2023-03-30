@@ -1,4 +1,3 @@
-import requests
 import psycopg2
 from flask import Flask, render_template, request, redirect, url_for
 
@@ -27,7 +26,8 @@ def login():
             username = request.form.get('username')
             password = request.form.get('password')
             if username and password:
-                cursor.execute("SELECT * FROM service.users WHERE login=%s AND password=%s", (str(username), str(password)))
+                cursor.execute("SELECT * FROM service.users WHERE login=%s AND \
+                                password=%s", (str(username), str(password)))
                 records = list(cursor.fetchall())
                 if records:
                     return render_template('account.html', full_name=records[0][1], username=username, password=password)
