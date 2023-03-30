@@ -30,11 +30,13 @@ def login():
                                 password=%s", (str(username), str(password)))
                 records = list(cursor.fetchall())
                 if records:
-                    return render_template('account.html', full_name=records[0][1], username=username, password=password)
+                    return render_template('account.html', full_name=records[0][1],
+                                            username=username, password=password)
                 else:
-                    return render_template('error_login.html')
+                    return render_template('account.html', error="Account doesn't exist")
             else:
-                return render_template('error_login.html')
+                return render_template('account.html', error="Empty fields for \
+                                       password or username")
         elif request.form.get("registration"):
             return redirect("/registration/")
 
@@ -51,15 +53,19 @@ def registration():
         cursor.execute('SELECT * FROM service.users WHERE login=%s', [str(username)])
         record = list(cursor.fetchall())
         if record:
-            return render_template('username_exist.html')
+            return render_template('registration.html', error='Account with such\
+                                    login already exist')
         else:
             if (username and password and name) and (len(username) != username.count(' ') and
                                                      len(password) != password.count(' ') and
                                                      len(name) != name.count(' ')):
-                cursor.execute('INSERT INTO service.users (full_name, login, password) VALUES (%s, %s, %s);',
+                cursor.execute('INSERT INTO service.users (full_name, \
+                                login, password) VALUES (%s, %s, %s);',
                                (str(name), str(username), str(password)))
             else:
-                return render_template('incorrect_reg_date.html')
+                return render_template('registration.html', error='You have\
+                                        entered incorrect data for registration.\
+                                        Please, enter the correct name, login and password.')
             conn.commit()
 
         return redirect('/login/')

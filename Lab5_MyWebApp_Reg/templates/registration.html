@@ -5,8 +5,11 @@
     <title>Registration</title>
 </head>
 <body>
-	<h3> Your registration data must have characters other than the whitespace</h3>
-
+	<h3> Your registration data must have characters
+		 other than the whitespace</h3>
+	{% if error %}
+	<p> {{error}} </p>
+	{% endif %}
     <form action="" method="post">
       <p>
     <label for="name">Your name:</label>
@@ -23,7 +26,7 @@
 	<p>
 	    <input type="submit" value="Sign In">
 	</p>
+	
     </form>
-
 </body>
 </html>
