@@ -1,9 +1,7 @@
 import psycopg2
 from flask import Flask, render_template, request, redirect, url_for
 
-
 app = Flask(__name__)
-
 
 conn = psycopg2.connect(database='service_db',
                         user='postgres',
@@ -26,17 +24,16 @@ def login():
             username = request.form.get('username')
             password = request.form.get('password')
             if username and password:
-                cursor.execute("SELECT * FROM service.users WHERE login=%s AND \
-                                password=%s", (str(username), str(password)))
+                cursor.execute("SELECT * FROM service.users WHERE login=%s AND password=%s", 
+                               (str(username), str(password)))
                 records = list(cursor.fetchall())
                 if records:
-                    return render_template('account.html', full_name=records[0][1],
-                                            username=username, password=password)
+                    return render_template('account.html', full_name=records[0][1], 
+                                           username=username, password=password)
                 else:
                     return render_template('account.html', error="Account doesn't exist")
             else:
-                return render_template('account.html', error="Empty fields for \
-                                       password or username")
+                return render_template('account.html', error="Empty fields for password or username")
         elif request.form.get("registration"):
             return redirect("/registration/")
 
@@ -50,21 +47,20 @@ def registration():
         username = request.form.get('login')
         password = request.form.get('password')
 
-        cursor.execute('SELECT * FROM service.users WHERE login=%s', [str(username)])
+        cursor.execute('SELECT * FROM service.users WHERE login=%s', 
+                       [str(username)])
         record = list(cursor.fetchall())
         if record:
-            return render_template('registration.html', error='Account with such\
-                                    login already exist')
+            return render_template('registration.html', error='Account with such login already exist')
         else:
-            if (username and password and name) and (len(username) != username.count(' ') and
-                                                     len(password) != password.count(' ') and
-                                                     len(name) != name.count(' ')):
+            if (username and password and name) and (len(username) != username.count(' ') and 
+                                                     len(password) != password.count(' ') and len(name) != 
+                                                     name.count(' ')):
                 cursor.execute('INSERT INTO service.users (full_name, \
                                 login, password) VALUES (%s, %s, %s);',
                                (str(name), str(username), str(password)))
             else:
-                return render_template('registration.html', error='You have\
-                                        entered incorrect data for registration.\
+                return render_template('registration.html', error='You have entered incorrect data for registration. \
                                         Please, enter the correct name, login and password.')
             conn.commit()
 
